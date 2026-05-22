@@ -70,24 +70,16 @@ func Start(
 		UDPTimeout: 60,
 	}
 
-    // If a custom DNS server was specified, log a warning.  The upstream
-    // tun2socks/v2 API removed the DNSHijack field from engine.Key, so DNS
-    // redirection must be handled outside of the library (for example via
-    // iptables DNAT rules)【828494346506210†L233-L267】.  To avoid build errors
-    // with newer tun2socks versions, we simply ignore this parameter.
-    if dnsServer != "" {
-        // No built-in support for DNS hijacking in tun2socks v2.6.0.
-        // The caller should configure system DNS redirection separately.
-    }
+    // tun2socks v2 no longer exposes a DNSHijack field in engine.Key.
+    // If a custom DNS server is required, handle DNS redirection outside of this
+    // library (e.g. using iptables to DNAT port 53 traffic). See the tun2socks wiki.
 
     engine.Insert(key)
-    // engine.Start() no longer returns a value in tun2socks v2; it logs fatal
-    // errors internally.  Call it without capturing a return value to avoid
-    // a compilation error【766674950455544†L0-L19】.
+    // Start does not return an error; it logs fatal errors internally.
     engine.Start()
 
-    isRunning = true
-    return ""
+	isRunning = true
+	return ""
 }
 
 // Stop shuts down the tun2socks engine cleanly.

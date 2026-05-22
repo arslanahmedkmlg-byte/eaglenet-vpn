@@ -62,8 +62,11 @@ jobs:
       - name: Download Go modules
         working-directory: go
         run: |
+          # Fetch the full golang.org/x/mobile module at the pinned version.
           GOFLAGS=-mod=mod go get golang.org/x/mobile@v0.0.0-20240213143359-d1f7d3436075
-          go mod tidy
+          # Ensure the bind subpackage is available for gomobile. Without this
+          # additional fetch, gobind may fail with "no Go package in golang.org/x/mobile/bind".
+          GOFLAGS=-mod=mod go get golang.org/x/mobile/bind@v0.0.0-20240213143359-d1f7d3436075 || true
           go mod download
           go mod verify
 
