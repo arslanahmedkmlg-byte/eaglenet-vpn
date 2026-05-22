@@ -40,15 +40,15 @@ android {
         jvmTarget = '17'
     }
 
-    // Tell Gradle where to find the .aar produced by gomobile
-    repositories {
-        flatDir { dirs 'libs' }
-    }
+    // The gomobile-produced .aar will be added directly as a file dependency below,
+    // so we don't declare a project-level repository here. This avoids conflicts with
+    // Gradle's `RepositoriesMode.FAIL_ON_PROJECT_REPOS` policy defined in settings.gradle.
 }
 
 dependencies {
     // gomobile-generated AAR — built by build.sh and copied to app/libs/
-    implementation(name: 'vpn',  ext: 'aar')
+    // Use the local file directly instead of relying on a flatDir repository.
+    implementation files('libs/vpn.aar')
 
     // Material Design components
     implementation 'com.google.android.material:material:1.11.0'
