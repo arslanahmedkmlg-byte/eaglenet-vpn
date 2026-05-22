@@ -35,10 +35,10 @@ jobs:
       - name: Install NDK and Build Tools
         run: |
           sdkmanager --install \
-            "ndk;26.3.11579264" \
+            "ndk;25.2.9519653" \
             "build-tools;34.0.0" \
             "platforms;android-34"
-          echo "ANDROID_NDK_HOME=$ANDROID_HOME/ndk/26.3.11579264" >> $GITHUB_ENV
+          echo "ANDROID_NDK_HOME=$ANDROID_HOME/ndk/25.2.9519653" >> $GITHUB_ENV
 
       - name: Cache gomobile toolchains
         uses: actions/cache@v4
@@ -50,9 +50,6 @@ jobs:
           restore-keys: |
             gomobile-${{ runner.os }}-
 
-      # Pin gomobile/gobind to the SAME version declared in go/go.mod.
-      # @latest introduced a strict module-graph check that requires go 1.24
-      # tool directives. Pinning avoids that entirely.
       - name: Install gomobile
         run: |
           MOBILE_VER=v0.0.0-20240213143359-d1f7d3436075
