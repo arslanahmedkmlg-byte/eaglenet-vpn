@@ -50,15 +50,16 @@ jobs:
           restore-keys: |
             gomobile-${{ runner.os }}-
 
-      # Install gomobile binaries into GOPATH/bin
+      # Pin gomobile/gobind to the SAME version declared in go/go.mod.
+      # @latest introduced a strict module-graph check that requires go 1.24
+      # tool directives. Pinning avoids that entirely.
       - name: Install gomobile
         run: |
-          go install golang.org/x/mobile/cmd/gomobile@latest
-          go install golang.org/x/mobile/cmd/gobind@latest
+          MOBILE_VER=v0.0.0-20240213143359-d1f7d3436075
+          go install golang.org/x/mobile/cmd/gomobile@${MOBILE_VER}
+          go install golang.org/x/mobile/cmd/gobind@${MOBILE_VER}
           echo "$(go env GOPATH)/bin" >> $GITHUB_PATH
 
-      # Pull all module deps including x/mobile into the module cache.
-      # We use -goflags so gomobile can find x/mobile without a tool directive.
       - name: Download Go modules
         working-directory: go
         run: |
