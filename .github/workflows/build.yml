@@ -50,22 +50,23 @@ jobs:
           restore-keys: |
             gomobile-${{ runner.os }}-
 
-      # Install gomobile then add golang.org/x/mobile into the module graph
+      # Install gomobile binaries into GOPATH/bin
       - name: Install gomobile
         run: |
           go install golang.org/x/mobile/cmd/gomobile@latest
           go install golang.org/x/mobile/cmd/gobind@latest
           echo "$(go env GOPATH)/bin" >> $GITHUB_PATH
 
-      - name: Prepare Go modules
+      # Pull all module deps including x/mobile into the module cache.
+      # We use -goflags so gomobile can find x/mobile without a tool directive.
+      - name: Download Go modules
         working-directory: go
         run: |
-          go get golang.org/x/mobile/cmd/gobind
-          go get golang.org/x/mobile/cmd/gomobile
-          go mod tidy
           go mod download
+          go mod verify
 
       - name: gomobile init
+        working-directory: go
         run: gomobile init
 
       - name: Build Go AAR (arm64)
