@@ -72,6 +72,7 @@ jobs:
         run: |
           mkdir -p ../android/app/libs
           gomobile bind \
+            -androidapi 21 \
             -target  android/arm64 \
             -ldflags "-s -w" \
             -o       ../android/app/libs/vpn.aar \
