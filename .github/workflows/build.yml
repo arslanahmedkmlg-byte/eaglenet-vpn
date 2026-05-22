@@ -57,9 +57,12 @@ jobs:
           go install golang.org/x/mobile/cmd/gobind@${MOBILE_VER}
           echo "$(go env GOPATH)/bin" >> $GITHUB_PATH
 
+      # Pull x/mobile source into module cache AND module graph.
+      # gobind needs the bind subpackage source to be importable.
       - name: Download Go modules
         working-directory: go
         run: |
+          GOFLAGS=-mod=mod go get golang.org/x/mobile@v0.0.0-20240213143359-d1f7d3436075
           go mod download
           go mod verify
 
