@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Backgrounds -->
+    <color name="bg_primary">#0F1117</color>
+    <color name="bg_card">#181C27</color>
+    <color name="input_bg">#1E2235</color>
+    <color name="card_stroke">#262B3D</color>
+
+    <!-- Text -->
+    <color name="text_primary">#EDF0F7</color>
+    <color name="text_secondary">#6B748E</color>
+
+    <!-- Accent -->
+    <color name="accent">#4D9FFF</color>
+
+    <!-- Status indicators -->
+    <color name="green">#22C55E</color>
+    <color name="red">#EF4444</color>
+    <color name="yellow">#F59E0B</color>
+
+    <!-- Buttons -->
+    <color name="btn_connect">#2563EB</color>
+    <color name="btn_disconnect">#DC2626</color>
+
+    <!-- Generic -->
+    <color name="white">#FFFFFF</color>
+    <color name="black">#000000</color>
+
+    <!-- Material theme overrides -->
+    <color name="purple_200">#BB86FC</color>
+    <color name="purple_500">#6200EE</color>
+    <color name="purple_700">#3700B3</color>
+    <color name="teal_200">#03DAC5</color>
+    <color name="teal_700">#018786</color>
+</resources>
