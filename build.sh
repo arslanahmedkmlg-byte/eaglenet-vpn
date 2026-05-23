@@ -50,11 +50,22 @@ cd "$GO_DIR"
 go mod tidy
 go mod download
 
-# ── 4. Build Go library → vpn.aar (arm64 only) ───────────────────────────────
+# ── 4. Build Go library → vpn.aar (multi‑architecture) ───────────────────────
 echo ""
-echo "→  Building Go AAR (android/arm64)…"
+echo "→  Building Go AAR (all supported Android ABIs)…"
+
+# Build a fat AAR that contains native libraries for all supported instruction
+# sets (arm, arm64, 386, amd64). By omitting an architecture spec, gomobile
+# defaults to building for all Android ABIs【126502082901197†L235-L238】. This ensures the
+# resulting APK can run on both real devices and emulators without crashing.
+
+# Ensure the output directory exists. If the libs directory has been
+# committed with only a .gitkeep file, gomobile will not create parent
+# directories automatically. Creating the directory prevents "file not found"
+# errors and ensures gomobile can write the AAR.
+mkdir -p "$(dirname "$AAR_OUT")"
 gomobile bind \
-    -target  android/arm64 \
+    -target  android \
     -o       "$AAR_OUT" \
     -ldflags "-s -w" \
     -v \

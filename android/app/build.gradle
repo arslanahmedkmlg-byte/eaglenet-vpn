@@ -14,10 +14,11 @@ android {
         versionCode       1
         versionName       "1.0.0"
 
-        // Only build arm64-v8a (ARM64). Remove the filter to include all ABIs.
-        ndk {
-            abiFilters "arm64-v8a"
-        }
+        // By default Gradle will package all architectures present in the AAR.
+        // Do not restrict ABI filters here so that the app can run on x86/x64 emulators
+        // and 32/64‑bit ARM devices. The Go library is now built as a fat AAR with
+        // multiple architectures.
+        // (Removed ndk.abiFilters to avoid limiting supported ABIs.)
     }
 
     buildTypes {
